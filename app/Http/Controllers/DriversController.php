@@ -48,6 +48,6 @@ class DriversController extends Controller
     public function destroy(string $id)
     {
         Drivers::destroy($id);
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Motorista deletado com sucesso'], 200);
     }
 }
