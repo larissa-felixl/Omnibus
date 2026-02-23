@@ -10,3 +10,4 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 
 Route::apiResource('drivers', App\Http\Controllers\DriversController::class);
+Route::apiResources(['expenses' => App\Http\Controllers\ExpensesController::class]);
