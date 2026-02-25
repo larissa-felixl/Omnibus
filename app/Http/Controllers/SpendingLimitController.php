@@ -12,7 +12,7 @@ class SpendingLimitController extends Controller
      */
     public function index()
     {
-        //
+        return SpendingLimit::all();
     }
 
     /**
@@ -20,30 +20,34 @@ class SpendingLimitController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $spendingLimit = SpendingLimit::create($request->all());
+        return response()->json($spendingLimit, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(SpendingLimit $spendingLimit)
+    public function show(string $id)
     {
-        //
+        return SpendingLimit::findOrFail($id);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, SpendingLimit $spendingLimit)
+    public function update(Request $request, string $id)
     {
-        //
+        $spendingLimit = SpendingLimit::findOrFail($id);
+        $spendingLimit->update($request->all());
+        return response()->json($spendingLimit, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(SpendingLimit $spendingLimit)
+    public function destroy(string $id)
     {
-        //
+        SpendingLimit::destroy($id);
+        return response()->json(['message' => 'Meta de gastos deletada com sucesso'], 200);
     }
 }
