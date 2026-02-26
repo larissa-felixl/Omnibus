@@ -5,10 +5,12 @@ use Illuminate\Support\Facades\Route;
 
 require __DIR__.'/auth.php';
 
-Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::apiResource('drivers', App\Http\Controllers\DriversController::class);
-Route::apiResources(['expenses' => App\Http\Controllers\ExpensesController::class]);
-Route::apiResources(['spending-limits' => App\Http\Controllers\SpendingLimitController::class]);
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::apiResource('drivers', App\Http\Controllers\DriversController::class);
+    Route::apiResource('expenses', App\Http\Controllers\ExpensesController::class);
+    Route::apiResource('spending-limits', App\Http\Controllers\SpendingLimitController::class);
+});

@@ -14,11 +14,10 @@ return new class extends Migration
         Schema::create('spending_limits', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('month');
-            $table->string('year');
             $table->decimal('limit_amount', 10, 2);
-            $table->boolean('is_exceeded')->default(false);
             $table->timestamps();
+            
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

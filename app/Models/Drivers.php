@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Drivers extends Model
 {
     protected $fillable = [
-        'id',
         'user_id',
         'name',
         'license_number',
@@ -15,4 +16,20 @@ class Drivers extends Model
         'email',
         'password',
     ];
+
+    /**
+     * Relacionamento com User
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Relacionamento com Expenses
+     */
+    public function expenses(): HasMany
+    {
+        return $this->hasMany(Expenses::class, 'driver_id');
+    }
 }
