@@ -3,51 +3,69 @@
 namespace App\Http\Controllers;
 
 use App\Models\Drivers;
-use Illuminate\Http\Request;
+use App\Http\Requests\StoreDriverRequest;
+use App\Http\Requests\UpdateDriverRequest;
+use Illuminate\Http\JsonResponse;
 
 class DriversController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        return Drivers::all();
+        $drivers = Drivers::with('user')->get();
+        return response()->json($drivers, 200);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDriverRequest $request): JsonResponse
     {
-        $driver = Drivers::create($request->all());
-        return response()->json($driver, 201);
+        $driver = Drivers::create($request->validated());
+        $driver->load('user');
+        
+        return response()->json([
+            'message' => 'Motorista cadastrado com sucesso.',
+            'data' => $driver
+        ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
-        return Drivers::findOrFail($id);
+        $driver = Drivers::with(['user', 'expenses'])->findOrFail($id);
+        return response()->json($driver, 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateDriverRequest $request, string $id): JsonResponse
     {
         $driver = Drivers::findOrFail($id);
-        $driver->update($request->all());
-        return response()->json($driver, 200);
+        $driver->update($request->validated());
+        $driver->load('user');
+        
+        return response()->json([
+            'message' => 'Motorista atualizado com sucesso.',
+            'data' => $driver
+        ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
-        Drivers::destroy($id);
-        return response()->json(['message' => 'Motorista deletado com sucesso'], 200);
+        $driver = Drivers::findOrFail($id);
+        $driver->delete();
+        
+        return response()->json([
+            'message' => 'Motorista deletado com sucesso.'
+        ], 200);
     }
 }
