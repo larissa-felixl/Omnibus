@@ -16,8 +16,8 @@ Route::middleware(['auth:sanctum'])->prefix('drivers')->group(function () {
     Route::post('/logout', [App\Http\Controllers\DriverAuthController::class, 'logout']);
     Route::post('/logout-all', [App\Http\Controllers\DriverAuthController::class, 'logoutAll']);
     
-    // Rotas de despesas do motorista
-    Route::apiResource('expenses', App\Http\Controllers\DriverExpensesController::class);
+    // Rotas de despesas do motorista (apenas visualizar e cadastrar)
+    Route::apiResource('expenses', App\Http\Controllers\DriverExpensesController::class)->only(['index', 'store', 'show']);
     Route::get('expenses-monthly-total', [App\Http\Controllers\DriverExpensesController::class, 'monthlyTotal']);
 });
 
@@ -28,6 +28,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
     Route::apiResource('drivers', App\Http\Controllers\DriversController::class);
-    Route::apiResource('expenses', App\Http\Controllers\ExpensesController::class);
+    Route::apiResource('expenses', App\Http\Controllers\ExpensesController::class)->only(['index', 'show', 'destroy']);
     Route::apiResource('spending-limits', App\Http\Controllers\SpendingLimitController::class);
 });

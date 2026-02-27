@@ -72,6 +72,14 @@ Content-Type: application/json
 }
 ```
 
+### Ver Despesa Específica
+```http
+GET /api/drivers/expenses/{id}
+Authorization: Bearer {token}
+```
+
+⚠️ **Importante**: Motoristas **NÃO** podem editar ou deletar despesas após cadastradas.
+
 ### Ver Total Mensal
 ```http
 GET /api/drivers/expenses-monthly-total
@@ -150,19 +158,19 @@ GET /api/expenses
 Authorization: Bearer {token}
 ```
 
-#### Cadastrar Despesa (pela secretaria)
+#### Ver Despesa Específica
 ```http
-POST /api/expenses
+GET /api/expenses/{id}
 Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "driver_id": 1,
-  "vehicle_plate": "ABC1234",
-  "value": 150.50,
-  "proof_of_payment": "url_ou_base64"
-}
 ```
+
+#### Deletar Despesa
+```http
+DELETE /api/expenses/{id}
+Authorization: Bearer {token}
+```
+
+⚠️ **Importante**: Secretaria **NÃO** pode criar ou editar despesas, apenas visualizar e deletar.
 
 ### Limites de Gastos
 
